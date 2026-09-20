@@ -1,0 +1,2 @@
+# Official Model Context Protocol Python SDK, verified 2026-09-20.
+mcp==2.2.0

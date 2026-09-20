@@ -1,0 +1,43 @@
+# Local environments and Python artifacts
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+# Credentials, local histories and diagnostics
+.env
+.env.*
+!.env.example
+.codex/
+auth.json
+secrets/
+credentials/
+profiles/
+tunnel-client/
+*.jsonl
+*.jsonl.*
+*.log
+*.bak
+*.backup
+*.key
+*.pem
+*.pfx
+# Downloaded executables/companions and release output
+*.exe
+*.dll
+*.msi
+cloudflared*
+bin/
+build/
+dist/
+*.zip
+*.tar.gz
+# OS/editor scratch
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

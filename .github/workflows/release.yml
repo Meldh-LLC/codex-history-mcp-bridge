@@ -1,0 +1,41 @@
+name: publish release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: '1'
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, checked 2026-09-16
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6, checked 2026-09-16
+        with:
+          python-version: '3.13'
+      - name: Install the declared runtime dependency
+        run: python -m pip install -r requirements.txt
+      - name: Run tests
+        run: python -m unittest discover -s tests -v
+      - name: Check the source package
+        run: python tools/release_check.py
+      - name: Build deterministic assets
+        run: python tools/build_release.py --out dist
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          dist/codex_history_mcp_bridge_0.3.0.zip
+          dist/codex_history_mcp_bridge_0.3.0.zip.sha256
+          --title "Codex History MCP Bridge $GITHUB_REF_NAME"
+          --notes-file .github/release-notes/v0.3.0.md
